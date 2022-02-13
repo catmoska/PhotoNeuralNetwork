@@ -1,0 +1,9 @@
+pip install random2
+
+pip install opencv-python
+
+pip install numpy
+pip install tensorflow
+pip install keras
+pip install pandas
+pip install matplotlib
