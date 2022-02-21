@@ -3,6 +3,7 @@ import numpy as np
 import os
 import random
 from functionss import *
+from threading import *
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import matplotlib.pyplot as plt
@@ -10,6 +11,10 @@ from tensorflow import keras as k
 from keras.layers import Dense
 from datetime import datetime
 
+
+
+def seve(model):
+    model.save("ttt")
 
 
 
@@ -36,8 +41,9 @@ model = k.models.load_model("ttt")
 
 print(datetime.now() - start_time)
 print("начало")
-ii = 1
-oo = 0
+ii = 2
+oo = 26
+y= False
 for i in range(ii,117-1):
     img = cv2.imread("kOn/"+str(i+1+20)+".jpg")
 
@@ -53,11 +59,14 @@ for i in range(ii,117-1):
         start_time = datetime.now()
         print("первий",i+1)
         print("второй",str(o+1)+"/"+str(s))
-        p = trasformerirovatFotoX(img,N,o*N)[0]
-        x = nrevracenDlaMas(p,64,64)
+        x = nrevracenDlaMas(trasformerirovatFotoX(img,N,o*N)[0],64,64)
+        if y == True:
+            t.join()
         model.fit(x=x, y=x, epochs=1, validation_split=0.2)
         # print("177/250 [====================>.........] - ETA: 46s - loss: 23824.1250 - accuracy: 3.5311e-04")
-        model.save("ttt")
+        t = Thread(target=seve, args=(model,))
+        t.start()
+        y = True
         print("повтор")
         print(datetime.now() - start_time)
         print()
